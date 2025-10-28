@@ -11,11 +11,23 @@ document.getElementById('mock-login')?.addEventListener('click', () => {
 function loadGameScreen() {
   document.getElementById('login-screen').classList.remove('active');
   document.getElementById('game-screen').classList.add('active');
-  setTimeout(() => {
+  
+  // รอให้ DOM และ script โหลดเสร็จ
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initGameWhenReady);
+  } else {
+    initGameWhenReady();
+  }
+}
+
+function initGameWhenReady() {
+  // รอเพิ่มอีกเล็กน้อยเพื่อให้ game.js โหลด
+  const checkInterval = setInterval(() => {
     if (typeof window.initializeGame === 'function') {
+      clearInterval(checkInterval);
       window.initializeGame();
     }
-  }, 300);
+  }, 100);
 }
 
 // ========== LOGOUT ==========
