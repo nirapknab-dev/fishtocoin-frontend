@@ -35,8 +35,7 @@ h1 { font-size: 2.5rem; margin-bottom: 10px; color: var(--coin); }
 }
 .btn-alby:hover { opacity: 0.9; }
 
-.hint { margin-top: 20px; font-size: 0.9rem; }
-.hint a { color: var(--water); }
+.hint { margin-top: 20px; font-size: 0.9rem; color: #aaa; }
 
 .header {
   display: flex;
