@@ -5,11 +5,15 @@ document.getElementById('alby-login')?.addEventListener('click', async () => {
   }
 
   try {
+    // 🔑 ขั้นตอนสำคัญ: เรียก enable() ก่อนเสมอ
+    await window.webln.enable(); // ← เพิ่มบรรทัดนี้!
+
     const info = await window.webln.getInfo();
     const message = `Login to fishtocoin at ${Date.now()}`;
     const signed = await window.webln.signMessage(message);
 
-    const res = await fetch('https://api.satoshiminer.me/auth', {
+    // ส่งไป backend...
+    const res = await fetch('https://api.fishtocoin.com/auth', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -28,21 +32,6 @@ document.getElementById('alby-login')?.addEventListener('click', async () => {
     }
   } catch (err) {
     console.error(err);
-    alert('Alby error: ' + (err.message || 'Allow site in Alby'));
+    alert('Alby error: ' + (err.message || 'Please allow the site in Alby'));
   }
-});
-
-function loadGameScreen() {
-  document.getElementById('login-screen').classList.remove('active');
-  document.getElementById('game-screen').classList.add('active');
-  setTimeout(() => {
-    if (typeof window.initializeGame === 'function') {
-      window.initializeGame();
-    }
-  }, 300);
-}
-
-document.getElementById('logout')?.addEventListener('click', () => {
-  localStorage.removeItem('fishtocoin_token');
-  location.reload();
 });
